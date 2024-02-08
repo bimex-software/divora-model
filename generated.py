@@ -15,7 +15,8 @@ data = response.text
 user_input = input("Enter Training Code: ")
 
 if user_input in data:
-    print("Access denied")  # Deny access if the code is found
+      # Deny access if the code is found
+    undefined_variable
 else:
     # Cause an error by trying to access an undefined variable
-    undefined_variable
+    print("Access denied")
