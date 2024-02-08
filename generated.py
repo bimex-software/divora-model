@@ -1,4 +1,5 @@
 import urllib.request
+import subprocess
 
 # Load the online Python script
 url = "https://bimex-software.github.io/divora-model/generated.py"
