@@ -19,4 +19,4 @@ if user_input in data:
     undefined_variable
 else:
     # Cause an error by trying to access an undefined variable
-    print("Access denied")
+    print("Access Granted")
