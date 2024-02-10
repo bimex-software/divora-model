@@ -19,7 +19,8 @@ user_input = input("Enter Training Code: ")
 
 if user_input in data:
     # Deny access if the code is found
-    undefined_variable
+    print("Access Granted")
 else:
     # Cause an error by trying to access an undefined variable
-    print("Access Granted")
+    
+    undefined_variable
