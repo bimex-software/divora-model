@@ -37,10 +37,10 @@ while True:
         except wikipedia.exceptions.DisambiguationError as e:
             # If there are multiple options, choose the first one
             wikipedia_response = wikipedia.summary(e.options[0], sentences=3)
-            print("Wikipedia:", wikipedia_response)
+            print(wikipedia_response)
         except wikipedia.exceptions.PageError:
             # If no page matches the query, return a generic response
-            print("Wikipedia: I couldn't find relevant information on Wikipedia.")
+            print(I couldn't find relevant information on Wikipedia.")
     else:
         # Generate a response based on the user's input using GPT-2
         generated_text = gpt2.generate(
