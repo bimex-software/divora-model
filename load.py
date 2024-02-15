@@ -1,85 +1,19 @@
-import subprocess
-import tensorflow.compat.v1 as tf
-tf.disable_v2_behavior()
-import gpt_2_simple as gpt2
-import wikipedia
-
-# Install gpt_2_simple if not already installed
-command = "pip install gpt_2_simple"
-subprocess.run(command, shell=True)
-
-# Define the model name and your custom checkpoint directory
-model_name = "124M"
-checkpoint_dir = "models"  # Use the default directory structure
-
-# Reset the TensorFlow graph and session
-tf.reset_default_graph()
-sess = gpt2.start_tf_sess()
-
-# Load your custom fine-tuned model from the specified checkpoint directory
-gpt2.load_gpt2(sess, model_name=model_name, checkpoint_dir=checkpoint_dir)
-
-# Define keywords that trigger Wikipedia search
-wikipedia_keywords = ["who is", "where is", "how old is", "why is", "when was"]
-
-while True:
-    # Accept user input for the prompt
-    user_input = input("You: ")
-
-    # Check if the user input contains any of the Wikipedia keywords
-    trigger_wikipedia = any(keyword in user_input.lower() for keyword in wikipedia_keywords)
-
-    if trigger_wikipedia:
-        # Extract the keyword from the user input
-        keyword = next(keyword for keyword in wikipedia_keywords if keyword in user_input.lower())
-
-        # Extract the entity of interest from the user input
-        entity = user_input.split(keyword)[-1].strip()
-
-        try:
-            # Retrieve information from Wikipedia based on the entity
-            wikipedia_response = wikipedia.summary(entity, sentences=3)
-
-            # Combine user input with Wikipedia information
-            combined_input = user_input + " " + wikipedia_response
-
-            # Generate a response based on the combined input using GPT-2
-            generated_text = gpt2.generate(
-                sess,
-                model_name=model_name,
-                checkpoint_dir=checkpoint_dir,
-                prefix=combined_input,
-                nsamples=1,
-                batch_size=1,
-                length=100,
-                temperature=0.7,
-                return_as_list=True
-            )[0]
-
-            # Print the generated response
-            print(generated_text)
-
-        except wikipedia.exceptions.DisambiguationError as e:
-            # If there are multiple options, choose the first one
-            print("Disambiguation Error - Please provide more specific information.")
-        except wikipedia.exceptions.PageError:
-            # If no page matches the query, return a generic response
-            print("I couldn't find relevant information on Wikipedia.")
-    else:
-        # Generate a response based on the user's input using GPT-2
-        generated_text = gpt2.generate(
-            sess,
-            model_name=model_name,
-            checkpoint_dir=checkpoint_dir,
-            prefix=user_input,
-            nsamples=1,
-            batch_size=1,
-            length=100,
-            temperature=0.7,
-            return_as_list=True
-        )[0]
-
-        # Print the generated response
-        print("AI:", generated_text)
-
-   
+__all__ =[]#line:1
+import subprocess #line:3
+import tensorflow .compat .v1 as tf #line:4
+tf .disable_v2_behavior ()#line:5
+import gpt_2_simple as gpt2 #line:6
+O0O0O000OOO0000O0 ="pip install gpt_2_simple"#line:9
+subprocess .run (O0O0O000OOO0000O0 ,shell =True )#line:10
+O00OO0000O0000O00 ="124M"#line:13
+O0O00000OOO00000O ="models"#line:14
+tf .reset_default_graph ()#line:17
+OOOO00OOOO00OO000 =gpt2 .start_tf_sess ()#line:18
+gpt2 .load_gpt2 (OOOO00OOOO00OO000 ,model_name =O00OO0000O0000O00 ,checkpoint_dir =O0O00000OOO00000O )#line:21
+while True :#line:23
+    OO0O0000O000OO000 =input ("You: ")#line:25
+    O000000O0O0OO0O00 =gpt2 .generate (OOOO00OOOO00OO000 ,model_name =O00OO0000O0000O00 ,checkpoint_dir =O0O00000OOO00000O ,prefix =OO0O0000O000OO000 ,nsamples =1 ,batch_size =1 ,length =100 ,temperature =0.7 ,return_as_list =True )[0 ]#line:28
+    OO000O00O0O000OOO =O000000O0O0OO0O00 .find ('.')#line:31
+    if OO000O00O0O000OOO !=-1 :#line:32
+        O000000O0O0OO0O00 =O000000O0O0OO0O00 [:OO000O00O0O000OOO +1 ]#line:33
+    print ("AI:",O000000O0O0OO0O00 )#line:36
