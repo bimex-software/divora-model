@@ -1,6 +1,3 @@
-Certainly! Below is an updated version of your code that integrates Wikipedia information with the GPT-2 model for response generation based on the user's input:
-
-```python
 import subprocess
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
