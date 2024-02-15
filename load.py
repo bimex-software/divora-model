@@ -40,7 +40,7 @@ while True:
             print(wikipedia_response)
         except wikipedia.exceptions.PageError:
             # If no page matches the query, return a generic response
-            print(I couldn't find relevant information on Wikipedia.")
+            print("I couldn't find relevant information on Wikipedia.")
     else:
         # Generate a response based on the user's input using GPT-2
         generated_text = gpt2.generate(
