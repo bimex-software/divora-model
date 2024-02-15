@@ -33,7 +33,7 @@ while True:
         # Search for relevant Wikipedia information based on the user's input
         try:
             wikipedia_response = wikipedia.summary(user_input, sentences=3)
-            print("Wikipedia:", wikipedia_response)
+            print(wikipedia_response)
         except wikipedia.exceptions.DisambiguationError as e:
             # If there are multiple options, choose the first one
             wikipedia_response = wikipedia.summary(e.options[0], sentences=3)
