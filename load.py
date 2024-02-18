@@ -28,7 +28,7 @@ while True:
     use_wikipedia = any(keyword in user_input for keyword in wikipedia_keywords)
 
     # Remove specific question words
-    question_words = ["who is", "where was", "why was", "what does", "what is", "what"]
+    question_words = ["who is", "where is", "why is", "what was", "what is"]
     for word in question_words:
         user_input = user_input.replace(word, "").strip()
 
@@ -41,22 +41,11 @@ while True:
     if use_wikipedia:
         try:
             wikipedia_summary = wikipedia.summary(user_input, sentences=1)
-            generated_text = "According to Wikipedia, " + wikipedia_summary
-
-            # Generate a single response based on the user's input
-            generated_text = gpt2.generate(sess, model_name=model_name, checkpoint_dir=checkpoint_dir, prefix=generated_text, nsamples=1, batch_size=1, length=100, temperature=0.7, return_as_list=True)[0]
+            generated_text = wikipedia_summary
         except (wikipedia.exceptions.DisambiguationError, wikipedia.exceptions.PageError) as e:
-            # Generate a single response based on the user's input if Wikipedia data is not available
-            generated_text = gpt2.generate(sess, model_name=model_name, checkpoint_dir=checkpoint_dir, prefix=user_input, nsamples=1, batch_size=1, length=100, temperature=0.7, return_as_list=True)[0]
+            generated_text = "Wikipedia data not available. Generating response using model."
     else:
         # Generate a single response based on the user's input without using Wikipedia
         generated_text = gpt2.generate(sess, model_name=model_name, checkpoint_dir=checkpoint_dir, prefix=user_input, nsamples=1, batch_size=1, length=100, temperature=0.7, return_as_list=True)[0]
 
-    # Extract the text up to the first period
-    first_period_index = generated_text.find('.')
-    if first_period_index != -1:
-        generated_text = generated_text[:first_period_index + 1]
-
-    # Print the generated text
-    print("AI:", generated_text)
-
+    # Extract the text up to the first
