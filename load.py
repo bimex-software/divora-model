@@ -30,7 +30,9 @@ while True:
     # Remove specific question words
     question_words = ["who is", "where is", "why is", "what was", "what is"]
     for word in question_words:
-        user_input = user_input.replace(word, "").strip()
+        if user_input.startswith(word):
+            user_input = user_input[len(word):].strip()
+            break
 
     # Check if the user input is empty after removing question words
     if not user_input:
@@ -48,4 +50,10 @@ while True:
         # Generate a single response based on the user's input without using Wikipedia
         generated_text = gpt2.generate(sess, model_name=model_name, checkpoint_dir=checkpoint_dir, prefix=user_input, nsamples=1, batch_size=1, length=100, temperature=0.7, return_as_list=True)[0]
 
-    # Extract the text up to the first
+    # Extract the text up to the first period
+    first_period_index = generated_text.find('.')
+    if first_period_index != -1:
+        generated_text = generated_text[:first_period_index + 1]
+
+    # Print the generated text
+    print("AI:", generated_text.strip())
