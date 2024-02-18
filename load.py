@@ -1,19 +1,52 @@
-__all__ =[]#line:1
-import subprocess #line:3
-import tensorflow .compat .v1 as tf #line:4
-tf .disable_v2_behavior ()#line:5
-import gpt_2_simple as gpt2 #line:6
-O0O0O000OOO0000O0 ="pip install gpt_2_simple"#line:9
-subprocess .run (O0O0O000OOO0000O0 ,shell =True )#line:10
-O00OO0000O0000O00 ="124M"#line:13
-O0O00000OOO00000O ="models"#line:14
-tf .reset_default_graph ()#line:17
-OOOO00OOOO00OO000 =gpt2 .start_tf_sess ()#line:18
-gpt2 .load_gpt2 (OOOO00OOOO00OO000 ,model_name =O00OO0000O0000O00 ,checkpoint_dir =O0O00000OOO00000O )#line:21
-while True :#line:23
-    OO0O0000O000OO000 =input ("You: ")#line:25
-    O000000O0O0OO0O00 =gpt2 .generate (OOOO00OOOO00OO000 ,model_name =O00OO0000O0000O00 ,checkpoint_dir =O0O00000OOO00000O ,prefix =OO0O0000O000OO000 ,nsamples =1 ,batch_size =1 ,length =100 ,temperature =0.7 ,return_as_list =True )[0 ]#line:28
-    OO000O00O0O000OOO =O000000O0O0OO0O00 .find ('.')#line:31
-    if OO000O00O0O000OOO !=-1 :#line:32
-        O000000O0O0OO0O00 =O000000O0O0OO0O00 [:OO000O00O0O000OOO +1 ]#line:33
-    print ("AI:",O000000O0O0OO0O00 )#line:36
+import subprocess
+import tensorflow.compat.v1 as tf
+import gpt_2_simple as gpt2
+import wikipedia
+
+# Install gpt_2_simple and wikipedia if not already installed
+subprocess.run("pip install gpt_2_simple wikipedia", shell=True)
+
+# Define the model name and your custom checkpoint directory
+model_name = "124M"
+checkpoint_dir = "models"  # Use the default directory structure
+
+# Reset the TensorFlow graph and session
+tf.reset_default_graph()
+sess = gpt2.start_tf_sess()
+
+# Load your custom fine-tuned model from the specified checkpoint directory
+gpt2.load_gpt2(sess, model_name=model_name, checkpoint_dir=checkpoint_dir)
+
+while True:
+    # Accept user input for the prompt
+    user_input = input("You: ").lower()
+
+    # Remove specific question words
+    question_words = ["who is", "where was", "why was", "what does", "what is", "what"]
+    for word in question_words:
+        user_input = user_input.replace(word, "").strip()
+
+    # Check if the user input is empty after removing question words
+    if not user_input:
+        print("AI: Please provide a valid input.")
+        continue
+
+    # Try to get Wikipedia summary based on user input
+    try:
+        wikipedia_summary = wikipedia.summary(user_input, sentences=1)
+        generated_text = "According to Wikipedia, " + wikipedia_summary
+
+        # Generate a single response based on the Wikipedia summary
+        generated_text = gpt2.generate(sess, model_name=model_name, checkpoint_dir=checkpoint_dir, prefix=generated_text, nsamples=1, batch_size=1, length=100, temperature=0.7, return_as_list=True)[0]
+    except wikipedia.exceptions.DisambiguationError as e:
+        generated_text = "There are multiple options. Please be more specific."
+    except wikipedia.exceptions.PageError as e:
+        generated_text = "Sorry, I couldn't find information on that."
+
+    # Extract the text up to the first period
+    first_period_index = generated_text.find('.')
+    if first_period_index != -1:
+        generated_text = generated_text[:first_period_index + 1]
+
+    # Print the generated text
+    print("AI:", generated_text)
