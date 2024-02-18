@@ -1,6 +1,4 @@
-Understood. To ensure the code only utilizes Wikipedia when specific keywords are present in the user input, and only if it can't find a suitable answer from Wikipedia or the user input itself, you need to refine the logic. Here's the updated code:
 
-```python
 import subprocess
 import tensorflow.compat.v1 as tf
 import gpt_2_simple as gpt2
@@ -67,10 +65,3 @@ while True:
 
     # Print the generated text
     print("AI:", generated_text)
-```
-
-This code now incorporates the following logic:
-
-- It checks if the user input contains any keywords from the list. If it does, it considers using Wikipedia.
-- If Wikipedia is deemed suitable based on the keywords, it attempts to fetch a summary. If an exact match is found, it uses the Wikipedia summary; otherwise, it generates a response using the GPT-2 model.
-- If the user input doesn't contain relevant keywords or if Wikipedia doesn't provide a suitable response, it generates a response solely using the GPT-2 model.
