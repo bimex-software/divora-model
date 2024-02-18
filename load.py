@@ -1,4 +1,3 @@
-
 import subprocess
 import tensorflow.compat.v1 as tf
 import gpt_2_simple as gpt2
@@ -38,22 +37,17 @@ while True:
         print("AI: Please provide a valid input.")
         continue
 
-    # Check if the user input exactly matches a Wikipedia page and if Wikipedia should be used
+    # Check if Wikipedia should be used and if an exact match is found in the model's responses
     if use_wikipedia:
         try:
             wikipedia_summary = wikipedia.summary(user_input, sentences=1)
             generated_text = "According to Wikipedia, " + wikipedia_summary
 
-            # Check if the generated Wikipedia summary exactly matches the user input
-            if user_input.lower() in wikipedia_summary.lower():
-                # Generate a single response based on the user's input
-                generated_text = gpt2.generate(sess, model_name=model_name, checkpoint_dir=checkpoint_dir, prefix=user_input, nsamples=1, batch_size=1, length=100, temperature=0.7, return_as_list=True)[0]
-            else:
-                generated_text = "Wikipedia data found but not exact. Generating response using model."
-
+            # Generate a single response based on the user's input
+            generated_text = gpt2.generate(sess, model_name=model_name, checkpoint_dir=checkpoint_dir, prefix=generated_text, nsamples=1, batch_size=1, length=100, temperature=0.7, return_as_list=True)[0]
         except (wikipedia.exceptions.DisambiguationError, wikipedia.exceptions.PageError) as e:
-            generated_text = "No suitable Wikipedia data found. Generating response using model."
-
+            # Generate a single response based on the user's input if Wikipedia data is not available
+            generated_text = gpt2.generate(sess, model_name=model_name, checkpoint_dir=checkpoint_dir, prefix=user_input, nsamples=1, batch_size=1, length=100, temperature=0.7, return_as_list=True)[0]
     else:
         # Generate a single response based on the user's input without using Wikipedia
         generated_text = gpt2.generate(sess, model_name=model_name, checkpoint_dir=checkpoint_dir, prefix=user_input, nsamples=1, batch_size=1, length=100, temperature=0.7, return_as_list=True)[0]
@@ -65,3 +59,4 @@ while True:
 
     # Print the generated text
     print("AI:", generated_text)
+
