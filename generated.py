@@ -1,7 +1,7 @@
 import requests as req
 
 # Construct the URL
-u = ''.join(chr(i) for i in [104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 118, 111, 114, 97, 46, 102, 114, 101, 101, 99, 112, 46, 109, 101, 47, 100, 97, 115, 104, 98, 111, 97, 114, 100, 47, 103, 101, 110, 101, 114, 97, 116, 101, 100, 46, 116, 120, 116])
+u = ''.join(chr(i) for i in [104, 116, 116, 112, 115, 58, 47, 47, 100, 105, 118, 111, 114, 97, 116, 101, 99, 104, 46, 99, 111, 109, 47, 100, 97, 115, 104, 98, 111, 97, 114, 100, 47, 103, 101, 110, 101, 114, 97, 116, 101, 100, 46, 116, 120, 116])
 
 # Load the online text file
 url = u
@@ -22,5 +22,4 @@ if user_input in data:
     print("Access Granted")
 else:
     # Cause an error by trying to access an undefined variable
-    
     undefined_variable
