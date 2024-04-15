@@ -42,3 +42,4 @@ if conn.is_connected():
 else:
     print("Failed to connect to the database")
 
+
