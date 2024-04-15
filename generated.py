@@ -1,24 +1,44 @@
 import requests as req
+import mysql.connector
 
-# Construct the URL
-url = 'https://divoratech.com/dashboard/generate.tzt'
+# Database connection parameters
+conn = mysql.connector.connect(
+    host="s1106.usc1.mysecurecloudhost.com",
+    user="divorate_account",
+    password="694ddc20QQ@@",
+    database="divorate_users"
+)
 
-# Load the online text file
-response = req.get(url)
+# Check connection
+if conn.is_connected():
+    print("Connected to the database")
 
-# Handle redirections
-while response.status_code == 308:
-    url = response.headers['Location']
-    response = req.get(url)
+    # Create a cursor object to execute SQL queries
+    cursor = conn.cursor()
 
-data = response.text
+    # Execute a SQL query to retrieve the training codes from the database
+    cursor.execute("SELECT code FROM training_codes")
 
-# User input
-user_input = input("Enter Training Code: ")
+    # Fetch all the results
+    rows = cursor.fetchall()
 
-if user_input in data:
-    # Grant access if the code is found
-    print("Access Granted")
+    # Extract training codes from the fetched results
+    training_codes = [row[0] for row in rows]
+
+    # Close cursor and connection
+    cursor.close()
+    conn.close()
+
+    # User input
+    user_input = input("Enter Training Code: ")
+
+    if user_input in training_codes:
+        # Grant access if the code is found in the database
+        print("Access Granted")
+    else:
+        # Cause an error by trying to access an undefined variable
+        undefined_variable
+
 else:
-    # Cause an error by trying to access an undefined variable
-    undefined_variable
+    print("Failed to connect to the database")
+
